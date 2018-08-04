@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import DeviceData from './DeviceData';
+import Map from './Map.js'
 
 const styles = theme => ({
   card: {
@@ -28,6 +29,7 @@ const InfoPage = ({ classes }) => (
     <Paper className={classes.paper}>
       <DeviceData />
     </Paper>
+    <Map/>
   </div>
 );
 
