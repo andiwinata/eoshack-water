@@ -10,8 +10,19 @@ class waterquality : public eosio::contract {
       {
       }
 
+      struct water_metrics {
+        std::string device_id; // SGX1278989
+        double geo_lat; // 123.455
+        double geo_lon; // 111.333
+        uint64_t timestamp; // 1477849493
+        double coliform_number; // 2.8
+        int ph_level; // 9
+        double chlorine_level; // 8.4
+        double turbidity; // 12.3
+      };
+
       /// @abi action
-      void create(account_name username, uint64_t deviceid, const std::string& fullname, uint64_t waterquality) {
+      void create(account_name username, uint64_t deviceid, const std::string& fullname, struct water_metrics metrics) {
         require_auth(username);
         // Let's make sure the primary key doesn't exist
         // _people.end() is in a way similar to null and it means that the value isn't found
@@ -19,7 +30,8 @@ class waterquality : public eosio::contract {
         _people.emplace(get_self(), [&]( auto& p ) {
            p.deviceid = deviceid;
            p.fullname = fullname;
-           p.waterquality = waterquality;
+           p.metrics = metrics;
+           p.waterquality = metrics.timestamp; // FIXME: dummy value - replace with aggregate
         });
       }
 
@@ -29,7 +41,7 @@ class waterquality : public eosio::contract {
     struct reading {
       uint64_t deviceid; // primary key
       std::string fullname;
-      // TODO: replace with struct containing water metrics
+      struct water_metrics metrics;
       uint64_t waterquality;
 
       uint64_t primary_key()const { return deviceid; }
