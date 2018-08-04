@@ -61,7 +61,7 @@ class Map extends Component {
               className={classes.formButton}
               onClick={this.deleteMarkS}
               type="submit">
-              Add My Device
+              Show My Readings
             </Button>
             <Button
               variant="contained"
@@ -69,7 +69,7 @@ class Map extends Component {
               className={classes.formButton}
               onClick={this.deleteMarkS}
               type="submit">
-              Load Locations
+              Add Location From Devices
             </Button>
                 <MapContainer
                     googleMapURL="http://maps.googleapis.com/maps/api/js?key=AIzaSyDZPmheqXofqkjMcimKOvEkGJhxWyhuaCg"
