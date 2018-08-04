@@ -57,14 +57,6 @@ class Map extends Component {
             <div>
             <Button
               variant="contained"
-              color="primary"
-              className={classes.formButton}
-              onClick={this.deleteMarkS}
-              type="submit">
-              Show My Readings
-            </Button>
-            <Button
-              variant="contained"
               color="secondary"
               className={classes.formButton}
               onClick={this.deleteMarkS}

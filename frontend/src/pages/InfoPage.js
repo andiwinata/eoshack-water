@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import DeviceData from './DeviceData';
+import DeviceData from '../components/DeviceData';
 import Map from './Map.js'
 
 const styles = theme => ({
