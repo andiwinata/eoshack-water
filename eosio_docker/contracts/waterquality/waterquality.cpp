@@ -16,7 +16,7 @@ class waterquality : public eosio::contract {
         double geo_lon; // 111.333
         uint64_t timestamp; // 1477849493
         double coliform_number; // 2.8
-        uint64_t ph_level; // 9
+        double ph_level; // 9
         double chlorine_level; // 8.4
         double turbidity; // 12.3
       };
@@ -42,6 +42,7 @@ class waterquality : public eosio::contract {
     struct reading {
       uint64_t deviceid; // primary key
       std::string fullname;
+      // TODO get postcode from latitude/longitude
       struct water_metrics metrics;
       uint64_t waterquality;
 
@@ -62,8 +63,14 @@ class waterquality : public eosio::contract {
     /// @abi table
     typedef eosio::multi_index< N(people), reading, indexed_by<N(bywaterquality), const_mem_fun<reading, uint64_t, &reading::by_waterquality>>> people;
 
-    // test command with:
+    // test commands (failing and passing):
+    // compile to web assembly
+    // eosiocpp -o /opt/eosio/bin/contracts/waterquality/waterquality.wast /opt/eosio/bin/contracts/waterquality/waterquality.cpp
+    // compile to ABI
+    // eosiocpp -g /opt/eosio/bin/contracts/waterquality/waterquality.abi /opt/eosio/bin/contracts/waterquality/waterquality.cpp
+    // cleos set contract testacc /opt/eosio/bin/contracts/waterquality/ --permission testacc@active
     // cleos push action testacc create '["testacc", 1, "Rohan", {"geo_lat": 1.0, "geo_lon": 2.0, "timestamp": 1, "coliform_number": 1.0, "ph_level": 1, "chlorine_level": 1.0, "turbidity": 1.0}]' -p testacc@active
+    //
 
     people _people;
 
