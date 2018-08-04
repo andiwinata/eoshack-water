@@ -16,7 +16,7 @@ class waterquality : public eosio::contract {
         double geo_lon; // 111.333
         uint64_t timestamp; // 1477849493
         double coliform_number; // 2.8
-        int ph_level; // 9
+        uint64_t ph_level; // 9
         double chlorine_level; // 8.4
         double turbidity; // 12.3
       };
@@ -31,7 +31,8 @@ class waterquality : public eosio::contract {
            p.deviceid = deviceid;
            p.fullname = fullname;
            p.metrics = metrics;
-           p.waterquality = metrics.timestamp; // FIXME: dummy value - replace with aggregate
+           p.waterquality = water_ok(metrics) ? 1 : 0;
+           // ^ TODO: Maybe replace with bool
         });
       }
 
@@ -45,8 +46,17 @@ class waterquality : public eosio::contract {
       uint64_t waterquality;
 
       uint64_t primary_key()const { return deviceid; }
+      // TODO: Do we need a secondary key or not?
       uint64_t by_waterquality()const { return waterquality; }
     };
+
+    bool water_ok(struct water_metrics metrics) {
+      return
+          metrics.ph_level >= 6.5 && metrics.ph_level <= 8.5 &&
+          metrics.turbidity < 5 &&
+          metrics.chlorine_level < 5 &&
+          metrics.coliform_number < 2;
+    }
 
     // We setup the table:
     /// @abi table
