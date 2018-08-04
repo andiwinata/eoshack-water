@@ -11,12 +11,12 @@ class waterquality : public eosio::contract {
       }
 
       struct water_metrics {
-        std::string device_id; // SGX1278989
+        //std::string device_id; // SGX1278989
         double geo_lat; // 123.455
         double geo_lon; // 111.333
         uint64_t timestamp; // 1477849493
         double coliform_number; // 2.8
-        int ph_level; // 9
+        double ph_level; // 9
         double chlorine_level; // 8.4
         double turbidity; // 12.3
       };
@@ -31,7 +31,8 @@ class waterquality : public eosio::contract {
            p.deviceid = deviceid;
            p.fullname = fullname;
            p.metrics = metrics;
-           p.waterquality = metrics.timestamp; // FIXME: dummy value - replace with aggregate
+           p.waterquality = water_ok(metrics) ? 1 : 0;
+           // ^ TODO: Maybe replace with bool
         });
       }
 
@@ -41,16 +42,35 @@ class waterquality : public eosio::contract {
     struct reading {
       uint64_t deviceid; // primary key
       std::string fullname;
+      // TODO get postcode from latitude/longitude
       struct water_metrics metrics;
       uint64_t waterquality;
 
       uint64_t primary_key()const { return deviceid; }
+      // TODO: Do we need a secondary key or not?
       uint64_t by_waterquality()const { return waterquality; }
     };
+
+    bool water_ok(struct water_metrics metrics) {
+      return
+          metrics.ph_level >= 6.5 && metrics.ph_level <= 8.5 &&
+          metrics.turbidity < 5 &&
+          metrics.chlorine_level < 5 &&
+          metrics.coliform_number < 2;
+    }
 
     // We setup the table:
     /// @abi table
     typedef eosio::multi_index< N(people), reading, indexed_by<N(bywaterquality), const_mem_fun<reading, uint64_t, &reading::by_waterquality>>> people;
+
+    // test commands (failing and passing):
+    // compile to web assembly
+    // eosiocpp -o /opt/eosio/bin/contracts/waterquality/waterquality.wast /opt/eosio/bin/contracts/waterquality/waterquality.cpp
+    // compile to ABI
+    // eosiocpp -g /opt/eosio/bin/contracts/waterquality/waterquality.abi /opt/eosio/bin/contracts/waterquality/waterquality.cpp
+    // cleos set contract testacc /opt/eosio/bin/contracts/waterquality/ --permission testacc@active
+    // cleos push action testacc create '["testacc", 1, "Rohan", {"geo_lat": 1.0, "geo_lon": 2.0, "timestamp": 1, "coliform_number": 1.0, "ph_level": 1, "chlorine_level": 1.0, "turbidity": 1.0}]' -p testacc@active
+    //
 
     people _people;
 
