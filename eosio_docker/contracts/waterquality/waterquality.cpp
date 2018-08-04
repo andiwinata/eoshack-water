@@ -11,7 +11,7 @@ class waterquality : public eosio::contract {
       }
 
       struct water_metrics {
-        std::string device_id; // SGX1278989
+        //std::string device_id; // SGX1278989
         double geo_lat; // 123.455
         double geo_lon; // 111.333
         uint64_t timestamp; // 1477849493
@@ -61,6 +61,9 @@ class waterquality : public eosio::contract {
     // We setup the table:
     /// @abi table
     typedef eosio::multi_index< N(people), reading, indexed_by<N(bywaterquality), const_mem_fun<reading, uint64_t, &reading::by_waterquality>>> people;
+
+    // test command with:
+    // cleos push action testacc create '["testacc", 1, "Rohan", {"geo_lat": 1.0, "geo_lon": 2.0, "timestamp": 1, "coliform_number": 1.0, "ph_level": 1, "chlorine_level": 1.0, "turbidity": 1.0}]' -p testacc@active
 
     people _people;
 
