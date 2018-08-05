@@ -18,7 +18,7 @@ const styles = theme => ({
     justifyContent: 'space-between',
   },
   card: {
-    width: 'calc(25% - 16px)',
+    width: 'calc(50% - 16px)',
     margin: '8px',
   },
   resultOk: {
@@ -40,13 +40,13 @@ const ReadingInfo = props => (
           <Icon className={classnames(props.classes.resultNotOk, 'fas fa-times')} />
         )}
       </Typography>
-      <Typography component="span">Latitude: {props.geo_lat}</Typography>
-      <Typography component="span">Longitude: {props.geo_lon}</Typography>
+      <Typography component="span">Latitude: {parseFloat(props.geo_lat).toFixed(2)}</Typography>
+      <Typography component="span">Longitude: {parseFloat(props.geo_lon).toFixed(2)}</Typography>
       <Typography component="span">Timestamp: {new Date(props.timestamp).toLocaleDateString()}</Typography>
-      <Typography component="span">Coliform Number: {props.coliform_number}</Typography>
-      <Typography component="span">PH Level: {props.ph_level}</Typography>
-      <Typography component="span">Chlorine Level: {props.chlorine_level}</Typography>
-      <Typography component="span">Turbidity: {props.turbidity}</Typography>
+      <Typography component="span">Coliform Number: {parseFloat(props.coliform_number).toFixed(2)}</Typography>
+      <Typography component="span">PH Level: {parseFloat(props.ph_level).toFixed(2)}</Typography>
+      <Typography component="span">Chlorine Level: {parseFloat(props.chlorine_level).toFixed(2)}</Typography>
+      <Typography component="span">Turbidity: {parseFloat(props.turbidity).toFixed(2)}</Typography>
     </CardContent>
   </Card>
 );
