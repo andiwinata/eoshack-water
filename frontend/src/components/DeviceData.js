@@ -29,6 +29,7 @@ const mockObj = {
   ph_level: 9,
   chlorine_level: 8.4,
   turbidity: 12.3,
+  water_ok: true,
 }
 
 const mockDeviceData = {
