@@ -19,7 +19,7 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     maxWidth: '70%',
-    margin: '16px auto',
+    margin: '24px auto',
     '& > h2': {
       fontSize: '1rem',
       fontWeight: 'bold',
@@ -50,7 +50,9 @@ const InfoPage = ({ classes }) => (
       <Typography component="h2">Retrieve Device Readings</Typography>
       <DeviceData />
     </Paper>
-    <Map />
+    <Paper className={classes.paper}>
+      <Map />
+    </Paper>
   </div>
 );
 
