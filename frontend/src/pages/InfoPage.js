@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import DeviceData from '../components/DeviceData';
-import Map from './Map.js'
+import Map from './Map.js';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-
 
 const styles = theme => ({
   card: {
@@ -20,6 +19,12 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
+    maxWidth: '70%',
+    margin: '24px auto',
+    '& > h2': {
+      fontSize: '1rem',
+      fontWeight: 'bold',
+    },
   },
   formButton: {
     marginTop: theme.spacing.unit,
@@ -45,9 +50,12 @@ const InfoPage = ({ classes }) => (
       </Toolbar>
     </AppBar>
     <Paper className={classes.paper}>
+      <Typography component="h2">Retrieve Device Readings</Typography>
       <DeviceData />
     </Paper>
-    <Map/>
+    <Paper className={classes.paper}>
+      <Map />
+    </Paper>
   </div>
 );
 
