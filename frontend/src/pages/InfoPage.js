@@ -73,7 +73,7 @@ const InfoPage = ({ classes, deviceData, marks, setDeviceData, setMarks }) => (
     <Paper className={classes.paper}>
       <Map marks={marks} />
     </Paper>
-    <Simulation setDeviceData={setDeviceData} setMarks={setMarks} />
+    <Simulation deviceData={deviceData} setDeviceData={setDeviceData} setMarks={setMarks} />
   </div>
 );
 

@@ -32,17 +32,20 @@ const styles = theme => ({
   },
 });
 
-const Simulation = ({ classes, simulateReadingOnClick, pushReadingsOnClick }) => (
+const Simulation = ({ classes, getDeviceReading, pushDeviceReading, pushReadingsOnClick }) => (
   <div>
     <Paper className={classes.paper}>
       <Typography className={classes.header} component="h2">
         Device Simulation (DEMO only)
       </Typography>
-      <Button color="secondary" variant="contained" onClick={simulateReadingOnClick}>
-        Simulate device reading
+      <Button color="secondary" variant="contained" onClick={pushDeviceReading}>
+        Push device reading to blockchain
+      </Button>
+      <Button color="secondary" variant="contained" onClick={getDeviceReading}>
+        Get device reading from blockchain
       </Button>
       <Button variant="contained" color="secondary" onClick={pushReadingsOnClick}>
-        Push readings in my city
+        Get readings in my city {/* TODO work with blockchain */}
       </Button>
     </Paper>
   </div>
@@ -66,7 +69,7 @@ const getRandomInRange = (from, to, fixed) => {
 };
 
 const EOS = {
-  async pushDeviceReading() {
+  async pushDeviceReading(data) {
     const eos = Eos({ keyProvider: '5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5' });
     const result = await eos.transaction({
       actions: [
@@ -79,29 +82,58 @@ const EOS = {
               permission: 'active',
             },
           ],
-          data: {
-            deviceid: 1234,
-            geo_lat: 123.455,
-            geo_lon: 111.333,
-            timestamp: 1477849493,
-            coliform_number: 2.8,
-            ph_level: 9,
-            chlorine_level: 8.4,
-            turbidity: 12.3,
-          },
+          data,
         },
       ],
     });
 
     console.log(result);
   },
+  async getDeviceData() {
+    const eos = Eos();
+    const result = await eos.getTableRows({
+      json: true,
+      code: 'notechainacc', // contract who owns the table
+      scope: 'notechainacc', // scope of the table
+      table: 'people', // name of the table as specified by the contract abi
+      limit: 100,
+    });
+
+    console.log('retriving blockchain', result.rows);
+    return result.rows;
+  },
 };
 
 const enhance = compose(
   withHandlers({
-    simulateReadingOnClick: props => () => {
-      EOS.pushDeviceReading();
-      props.setDeviceData(1234, Array.from({ length: 6 }, () => ({ ...mockObj })));
+    getDeviceReading: props => async () => {
+      const rows = await EOS.getDeviceData();
+
+      rows.forEach(row => {
+        props.setDeviceData(row.deviceid, [...(props.deviceData[row.deviceid] || []), row]);
+      });
+    },
+    pushDeviceReading: props => async () => {
+      await EOS.pushDeviceReading({
+        deviceid: 1234,
+        geo_lat: 123.455,
+        geo_lon: 111.333,
+        timestamp: 1477849493,
+        coliform_number: 2.8,
+        ph_level: 9,
+        chlorine_level: 8.4,
+        turbidity: 12.3,
+      });
+      await EOS.pushDeviceReading({
+        deviceid: 12345,
+        geo_lat: -33.308849,
+        geo_lon: 149.010766,
+        timestamp: 1533463200,
+        coliform_number: 0.0,
+        ph_level: 7.5,
+        chlorine_level: 0.5,
+        turbidity: 3.7,
+      });
     },
     pushReadingsOnClick: props => () => {
       var newPos = [
