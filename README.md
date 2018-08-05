@@ -22,7 +22,7 @@ The following guide assumes you are using macOS.
 # Run the DApp
 
 - Run `sh h2eos_start_docker.sh` in terminal
-- Open new terminal, run `npm start`
+- Open new terminal, run `cd ./frontend && npm start`
 
 For Demo purposes:
 - In the `localhost:3000` press `PUSH DEVICE READING TO BLOCKCHAIN`, this will push mock data into blockchain
