@@ -19,9 +19,9 @@ const styles = theme => ({
   },
 });
 
-const mockDeviceId = 1234;
+const mockDeviceId = 'H2E1278989';
 const mockObj = {
-  device_id: 'SGX1278989',
+  device_id: 'H2E1278989',
   geo_lat: 123.455,
   geo_lon: 111.333,
   timestamp: 1477849493,

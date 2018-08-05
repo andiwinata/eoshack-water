@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 
 import Simulation from './Simulation'
+import logo from './logo.png'
 
 const styles = theme => ({
   card: {
@@ -18,6 +19,16 @@ const styles = theme => ({
   },
   toolbar: {
     backgroundColor: '#272727',
+  },
+  logo: {
+    width: '120px',
+    height: '30px',
+    marginLeft:'50px'
+  },
+  logosub: {
+    fontSize: '14px',
+    marginLeft:'70px',
+    marginTop:'10px'
   },
   paper: {
     ...theme.mixins.gutters(),
@@ -46,10 +57,11 @@ const InfoPage = ({ classes }) => (
     <AppBar position="static" className={classes.toolbar}>
       <Toolbar>
         <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <img src={logo} alt={"logo"} className={classes.logo}/>
         </IconButton>
 
-        <Typography variant="title" color="inherit" className={classes.flex}>
-          H2EOS | Measuring water quality with IOT and BlockChain
+        <Typography variant="title" color="inherit" className={classes.logosub}>
+           | Measuring water quality with IOT and BlockChain
         </Typography>
       </Toolbar>
     </AppBar>
