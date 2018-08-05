@@ -1,22 +1,7 @@
 # Overview
-NoteChain demonstrates the eosio platform running a blockchain as a local single node test net with a simple DApp, NoteChain. NoteChain allows users to create and update notes. This guide uses scripts, containing relevant commands, which will show you how to install, build and run NoteChain, and by doing so will demonstrate:
+H2EOS demonstrates the eosio platform running a blockchain as a local single node test net with a simple DApp. H2EOS allows users to create water measurement readings.
 
-- Downloading and running eosio in docker;
-- Managing your docker container;
-- Setting up and running a local single node testnet;
-- Setting up wallets, keys, and accounts;
-- Writing and deploying a smart contract;
-- Implementing a web based UI using React;
-- Connecting the UI to the blockchain using eosjs;
-- Styling the UI using Material-UI.
-
-Github eosio-project-boilerplate-simple (https://github.com/EOSIO/eosio-project-boilerplate-simple) contains the UI and Smart Contract code, as well as setup scripts which will initialise and start all the necessary components.
-
-The sample DApp demonstrates storing data in multi index table and retreiving this data into the web based UI. NoteChain is a simple note taking application, where notes are tied to user accounts. For this example, all accounts are pre-created by scripts and the account details are displayed at the bottom of the NoteChain UI.
-
-Each account can then be used to add a note to the blockchain. The individual notes are saved in a multi-index table and for simplicity are of fixed width. Each account may have one note attached to it, adding a note to an account with an existing note will replace the existing note with a new note.
-
-**Any private keys you see in this repository are for demo purposes only. For a real DApp NEVER expose the private keys.**
+H2EOS is based off the boilerplate https://github.com/EOSIO/eosio-project-boilerplate-simple.git
 
 # Prerequisites
 
@@ -51,12 +36,12 @@ The above command will execute the following in sequence:
 
 **To stop**, press `ctrl+c` on your keyboard, and execute:
 ```sh
-docker stop eosio_notechain_container
+docker stop eosio_H2EOS_container
 ```
 
 # Detailed guide
 
-In this section we will describe in detail each script used to run the NoteChain environment in details.
+In this section we will describe in detail each script used to run the H2EOS environment in details.
 
 ## Initial setup
 
@@ -102,7 +87,7 @@ will open a browser session connecting to http://localhost:3000/ showing the rea
 
 In the first (blockchain) terminal window, press `ctrl+c` on your keyboard, the log will stop printing. And then execute:
 ```sh
-docker stop eosio_notechain_container
+docker stop eosio_H2EOS_container
 ```
 
 This action will take a few seconds. The blockchain will be stopped.
@@ -141,11 +126,11 @@ This removes all data on the blockchain, including accounts, deployed smart cont
 ## Project structure
 
 ```js
-noteChain // project directory
+H2EOS // project directory
 ├── eosio_docker
 │   ├── * contracts // this folder will be mounted into docker
-│   │   └── notechain
-│   │       └── notechain.cpp // the main smart contract
+│   │   └── waterquality
+│   │       └── waterquality.cpp // the main smart contract
 │   ├── * data // blockchain data, generated after first_time_setup.sh
 │   │   ├── blocks
 │   │   ├── state
@@ -185,7 +170,7 @@ The DApp consists of two parts. eosio blockchain and frontend react app. These c
 
 Users interact with the UI in client and sign the transaction in frontend. The signed transaction (which is an `update` action in this demo DApp) is sent to the blockchain directly. After the transaction is accepted in blockchain, the note is added into the multi index table in blockchain.
 
-The UI, index.jsx, reads the notes data directly from nodeos using 'getTableRows()'. The smart contract, notechain.cpp, stores these notes in the multi index table using 'emplace()'' and 'modify()'.
+The UI, index.jsx, reads the notes data directly from nodeos using 'getTableRows()'. The smart contract, H2EOS.cpp, stores these notes in the multi index table using 'emplace()'' and 'modify()'.
 
 ## Docker usage
 
@@ -193,7 +178,7 @@ Docker is used to wrap the eosio software inside and run a container (instance) 
 
 Go into container bash:
 ```sh
-docker exec -it eosio_notechain_container bash
+docker exec -it eosio_H2EOS_container bash
 ```
 We have already set the container working directory to `/opt/eosio/bin/`, you could run cleos command in this directory directly. For documentation of cleos: https://developers.eos.io/eosio-nodeos/docs/cleos-overview
 
@@ -206,22 +191,22 @@ exit
 
 ## Smart contract (Blockchain):
 
-The smart contract can be found at `eosio_docker/contracts/notechain/notechain.cpp`, you can edit this smart contract. You will then need to compile and deploy the contract to the blockchain.
+The smart contract can be found at `eosio_docker/contracts/H2EOS/H2EOS.cpp`, you can edit this smart contract. You will then need to compile and deploy the contract to the blockchain.
 
 To save time, we prepared some scripts for you. Execute the scripts in the container bash (see above.)
 
 The following script will help you to unlock the wallet, compile the modified contract and deploy to blockchain. 1st parameter is the contract name; 2nd parameter is the account name of the contract owner, 3rd and 4th parameter references  wallet related information that was created during the `Initial setup`:
 ```sh
-./scripts/deploy_contract.sh notechain notechainacc notechainwal $(cat notechain_wallet_password.txt)
+./scripts/deploy_contract.sh H2EOS H2EOSacc H2EOSwal $(cat H2EOS_wallet_password.txt)
 ```
 
 After running this script the modified smart contract will be deployed on the blockchain.
 
-Remember to redeploy the NoteChain contract each time you modify it using!
+Remember to redeploy the H2EOS contract each time you modify it using!
 
 ## Frontend:
 
-The UI code can be found  at noteChain/frontend/src/pages/index.jsx), once you have edited this code the frontend react app compile automatically and the page on browser will be automatically refreshed. You can see the change on the browser once the browser finishes loading.
+The UI code can be found  at H2EOS/frontend/src/pages/index.jsx), once you have edited this code the frontend react app compile automatically and the page on browser will be automatically refreshed. You can see the change on the browser once the browser finishes loading.
 
 ## Docker commands
 
@@ -232,7 +217,7 @@ If you are more familiar with docker, you could use below docker command to have
 Run container from eosio/eos-dev image by mounting contracts / scripts to the container with running the init_blockchain.sh script as the process.
 The init_blockchain.sh script run the local node of the blockchain and initializes wallets / contract / data.
 ```sh
-docker run --rm --name eosio_notechain_container \
+docker run --rm --name eosio_H2EOS_container \
 -p 8888:8888 -p 9876:9876 \
 --mount type=bind,src="$(pwd)"/contracts,dst=/opt/eosio/bin/contracts \
 --mount type=bind,src="$(pwd)"/scripts,dst=/opt/eosio/bin/scripts \
@@ -242,15 +227,15 @@ docker run --rm --name eosio_notechain_container \
 
 Output and follow docker console logs:
 ```sh
-docker logs eosio_notechain_container --follow
+docker logs eosio_H2EOS_container --follow
 ```
 
 Remove the container (will remove all wallets / contracts / data), useful if you want to re-init the whole DApp.
 ```sh
-docker rm -f eosio_notechain_container
+docker rm -f eosio_H2EOS_container
 ```
 
 Stop the container (see below troubleshoot section to see how to pause and continue the blockchain):
 ```sh
-docker stop eosio_notechain_container
+docker stop eosio_H2EOS_container
 ```
