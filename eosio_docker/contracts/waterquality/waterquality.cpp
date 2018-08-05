@@ -82,13 +82,13 @@ class waterquality : public eosio::contract {
     typedef eosio::multi_index< N(people), reading, indexed_by<N(bytimestamp), const_mem_fun<reading, uint64_t, &reading::by_timestamp>>> people;
 
     // test commands (failing and passing):
-    // compile to web assembly
     // eosiocpp -o /opt/eosio/bin/contracts/waterquality/waterquality.wast /opt/eosio/bin/contracts/waterquality/waterquality.cpp
-    // compile to ABI
     // eosiocpp -g /opt/eosio/bin/contracts/waterquality/waterquality.abi /opt/eosio/bin/contracts/waterquality/waterquality.cpp
     // cleos set contract testacc /opt/eosio/bin/contracts/waterquality/ --permission testacc@active
-    //
+    // cleos push action testacc create '[1, 1.0, 1.0, 1, 1.0, 1.0, 1.0, 1.0 ]' -p testacc@active
+    // cleos get table testacc testacc people
 
+    // TODO: should be renamed but CBF
     people _people;
 
 };
