@@ -33,7 +33,7 @@ class waterquality : public eosio::contract {
           double turbidity) {
         // Let's make sure the primary key doesn't exist
         // _people.end() is in a way similar to null and it means that the value isn't found
-        eosio_assert(_people.find(deviceid) == _people.end(), "This SSN already exists in the addressbook");
+        //eosio_assert(_people.find(deviceid) == _people.end(), "This SSN already exists in the addressbook");
         _people.emplace(get_self(), [&]( auto& p ) {
            p.deviceid = deviceid;
            p.geo_lat = geo_lat;
