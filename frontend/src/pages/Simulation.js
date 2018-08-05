@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import grey from '@material-ui/core/colors/grey';
+import Eos from 'eosjs'; // https://github.com/EOSIO/eosjs
 
 const styles = theme => ({
   paper: {
@@ -49,7 +50,7 @@ const Simulation = ({ classes, simulateReadingOnClick, pushReadingsOnClick }) =>
 
 const mockDeviceId = 1234;
 const mockObj = {
-  device_id: 'SGX1278989',
+  device_id: 1234,
   geo_lat: 123.455,
   geo_lon: 111.333,
   timestamp: 1477849493,
@@ -64,9 +65,42 @@ const getRandomInRange = (from, to, fixed) => {
   return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
 };
 
+const EOS = {
+  async pushDeviceReading() {
+    const eos = Eos({ keyProvider: '5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5' });
+    const result = await eos.transaction({
+      actions: [
+        {
+          account: 'notechainacc',
+          name: 'create',
+          authorization: [
+            {
+              actor: 'useraaaaaaaa',
+              permission: 'active',
+            },
+          ],
+          data: {
+            deviceid: 1234,
+            geo_lat: 123.455,
+            geo_lon: 111.333,
+            timestamp: 1477849493,
+            coliform_number: 2.8,
+            ph_level: 9,
+            chlorine_level: 8.4,
+            turbidity: 12.3,
+          },
+        },
+      ],
+    });
+
+    console.log(result);
+  },
+};
+
 const enhance = compose(
   withHandlers({
     simulateReadingOnClick: props => () => {
+      EOS.pushDeviceReading();
       props.setDeviceData(1234, Array.from({ length: 6 }, () => ({ ...mockObj })));
     },
     pushReadingsOnClick: props => () => {
