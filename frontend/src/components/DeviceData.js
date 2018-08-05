@@ -19,9 +19,10 @@ const styles = theme => ({
   },
 });
 
-const mockDeviceId = 8582854;
+
+const mockDeviceId = 'H2E1278989';
 const mockObj = {
-  device_id: 'SGX1278989',
+  device_id: 'H2E1278989',
   geo_lat: 123.455,
   geo_lon: 111.333,
   timestamp: 1477849493,
@@ -38,10 +39,10 @@ const mockDeviceData = {
 
 const DEVICE_ID_NAME = 'deviceID';
 
-const DeviceData = ({ classes, currentData, setCurrentData }) => (
+const DeviceData = ({ classes, deviceData, currentData, setCurrentData }) => (
   <Formik
     onSubmit={(values, actions) => {
-      setCurrentData(mockDeviceData[values[DEVICE_ID_NAME]]);
+      setCurrentData(deviceData[values[DEVICE_ID_NAME]]);
     }}
   >
     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
@@ -55,17 +56,14 @@ const DeviceData = ({ classes, currentData, setCurrentData }) => (
             onChange={handleChange}
             autoComplete="off"
           />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.formButton}
-            type="submit"
-          >
+          <Button variant="contained" color="primary" className={classes.formButton} type="submit">
             Show Device Readings
           </Button>
         </form>
         {currentData && (
-          <div className={classes.cardsWrapper}>{currentData.map((data, id) => <ReadingInfo key={id} {...data} />)}</div>
+          <div className={classes.cardsWrapper}>
+            {currentData.map((data, id) => <ReadingInfo key={id} {...data} />)}
+          </div>
         )}
       </div>
     )}
