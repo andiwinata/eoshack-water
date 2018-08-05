@@ -36,23 +36,6 @@ const MapContainer = withScriptjs(
 );
 
 class Map extends Component {
-    state = {
-        marks: [{lat: -33.308849, lng: 149.010766},{lat: -33.3062539, lng: 148.9739605},{lat: -33.295481, lng: 148.839921}]
-    };
-
-    getRandomInRange(from, to, fixed) {
-        return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
-    }
-
-    addMarker = e => {
-
-        var newPos = [{lat: this.getRandomInRange(-33.0, -33.5, 3), lng: this.getRandomInRange(149, 149.4, 3)},{lat: this.getRandomInRange(-33.0, -33.5, 3), lng: this.getRandomInRange(149, 149.4, 3)}]
-
-        this.setState({ marks: [...this.state.marks, ...newPos ] })
-
-        console.log(this.state.marks)
-    };
-
     deleteMarkS = () => {
         this.setState({
             marks: []
@@ -68,7 +51,6 @@ class Map extends Component {
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
-                    onMapClick={this.addMarker}
                     marks={marks}
                 />;
             </div>
