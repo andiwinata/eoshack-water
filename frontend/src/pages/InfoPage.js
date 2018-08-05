@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { compose, withState, withStateHandlers } from 'recompose';
 import Paper from '@material-ui/core/Paper';
 import DeviceData from '../components/DeviceData';
 import Map from './Map.js';
@@ -10,8 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 
+<<<<<<< HEAD
 import Simulation from './Simulation'
 import logo from './logo.png'
+=======
+import Simulation from './Simulation';
+>>>>>>> 858b7cd47c64b572016fa715d58cc833d49ec32c
 
 const styles = theme => ({
   card: {
@@ -52,13 +57,17 @@ const styles = theme => ({
   },
 });
 
-const InfoPage = ({ classes }) => (
+const InfoPage = ({ classes, deviceData, marks, setDeviceData, setMarks }) => (
   <div>
     <AppBar position="static" className={classes.toolbar}>
       <Toolbar>
+<<<<<<< HEAD
         <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
           <img src={logo} alt={"logo"} className={classes.logo}/>
         </IconButton>
+=======
+        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" />
+>>>>>>> 858b7cd47c64b572016fa715d58cc833d49ec32c
 
         <Typography variant="title" color="inherit" className={classes.logosub}>
            | Measuring water quality with IOT and BlockChain
@@ -67,13 +76,42 @@ const InfoPage = ({ classes }) => (
     </AppBar>
     <Paper className={classes.paper}>
       <Typography component="h2">Retrieve Device Readings</Typography>
-      <DeviceData />
+      <DeviceData deviceData={deviceData} />
     </Paper>
     <Paper className={classes.paper}>
-      <Map />
+      <Map marks={marks} />
     </Paper>
-    <Simulation />
+    <Simulation setDeviceData={setDeviceData} setMarks={setMarks} />
   </div>
 );
 
-export default withStyles(styles)(InfoPage);
+const enhance = compose(
+  withStateHandlers(
+    {
+      deviceData: {},
+      marks: [
+        { lat: -33.308849, lng: 149.010766 },
+        { lat: -33.3062539, lng: 148.9739605 },
+        { lat: -33.295481, lng: 148.839921 },
+      ],
+    },
+    {
+      setDeviceData: state => (id, deviceData) => {
+        return {
+          deviceData: {
+            ...state.deviceData,
+            [id]: deviceData,
+          },
+        };
+      },
+      setMarks: state => newPositions => {
+        return {
+          marks: [...state.marks, ...newPositions],
+        };
+      },
+    }
+  ),
+  withStyles(styles)
+);
+
+export default enhance(InfoPage);
