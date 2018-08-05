@@ -7,13 +7,17 @@ import Map from './Map.js';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
+
+import Simulation from './Simulation'
 
 const styles = theme => ({
   card: {
     margin: 20,
+  },
+  toolbar: {
+    backgroundColor: '#272727',
   },
   paper: {
     ...theme.mixins.gutters(),
@@ -39,7 +43,7 @@ const styles = theme => ({
 
 const InfoPage = ({ classes }) => (
   <div>
-    <AppBar position="static">
+    <AppBar position="static" className={classes.toolbar}>
       <Toolbar>
         <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
         </IconButton>
@@ -56,6 +60,7 @@ const InfoPage = ({ classes }) => (
     <Paper className={classes.paper}>
       <Map />
     </Paper>
+    <Simulation />
   </div>
 );
 
