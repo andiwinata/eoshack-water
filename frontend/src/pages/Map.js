@@ -37,7 +37,7 @@ const MapContainer = withScriptjs(
 
 class Map extends Component {
     state = {
-        marks: [{lat: -33.308849, lng: 149.010766},{lat: -33.3062539, lng: 148.9739605},{lat: -33.295481, lng: 148.839921},]
+        marks: [{lat: -33.308849, lng: 149.010766},{lat: -33.3062539, lng: 148.9739605},{lat: -33.295481, lng: 148.839921}]
     };
 
     getRandomInRange(from, to, fixed) {
@@ -45,11 +45,10 @@ class Map extends Component {
     }
 
     addMarker = e => {
-        var gen_lat = this.getRandomInRange(-33.0, -33.5, 3)
-        var gen_lon = this.getRandomInRange(149, 149.4, 3)
-        var newPos = {lat: gen_lat, lng: gen_lon}
 
-        this.setState({ marks: [...this.state.marks, ...[newPos] ] })
+        var newPos = [{lat: this.getRandomInRange(-33.0, -33.5, 3), lng: this.getRandomInRange(149, 149.4, 3)},{lat: this.getRandomInRange(-33.0, -33.5, 3), lng: this.getRandomInRange(149, 149.4, 3)}]
+
+        this.setState({ marks: [...this.state.marks, ...newPos ] })
 
         console.log(this.state.marks)
     };
@@ -71,11 +70,8 @@ class Map extends Component {
                   className={classes.formButton}
                   onClick={this.addMarker}
                   type="submit">
-                  Add Location From Devices
+                  Push readings in my city
                 </Button>
-                <Typography variant="title" color="inherit" className={classes.flex}>
-                  The Markers below show the areas of clean water or contaminated areas around you
-                </Typography>
                 <MapContainer
                     googleMapURL="http://maps.googleapis.com/maps/api/js?key=AIzaSyDZPmheqXofqkjMcimKOvEkGJhxWyhuaCg"
                     loadingElement={<div style={{ height: `100%` }} />}
