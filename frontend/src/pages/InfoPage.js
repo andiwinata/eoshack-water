@@ -58,14 +58,9 @@ const InfoPage = ({ classes, deviceData, marks, setDeviceData, setMarks }) => (
   <div>
     <AppBar position="static" className={classes.toolbar}>
       <Toolbar>
-<<<<<<< HEAD
         <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
           <img src={logo} alt={"logo"} className={classes.logo}/>
         </IconButton>
-=======
-        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" />
->>>>>>> 858b7cd47c64b572016fa715d58cc833d49ec32c
-
         <Typography variant="title" color="inherit" className={classes.logosub}>
            | Measuring water quality with IOT and BlockChain
         </Typography>
