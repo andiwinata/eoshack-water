@@ -64,14 +64,6 @@ class Map extends Component {
         const { classes } = this.props;
         return (
             <div>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  className={classes.formButton}
-                  onClick={this.addMarker}
-                  type="submit">
-                  Push readings in my city
-                </Button>
                 <MapContainer
                     googleMapURL="http://maps.googleapis.com/maps/api/js?key=AIzaSyDZPmheqXofqkjMcimKOvEkGJhxWyhuaCg"
                     loadingElement={<div style={{ height: `100%` }} />}

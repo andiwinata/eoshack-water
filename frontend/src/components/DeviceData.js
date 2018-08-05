@@ -59,7 +59,6 @@ const DeviceData = ({ classes, currentData, setCurrentData }) => (
             variant="contained"
             color="primary"
             className={classes.formButton}
-            onClick={this.deleteMarkS}
             type="submit"
           >
             Show Device Readings
