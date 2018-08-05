@@ -17,6 +17,9 @@ const styles = theme => ({
   card: {
     margin: 20,
   },
+  toolbar: {
+    backgroundColor: '#272727',
+  },
   paper: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
@@ -41,7 +44,7 @@ const styles = theme => ({
 
 const InfoPage = ({ classes, marks, setMarks }) => (
   <div>
-    <AppBar position="static">
+    <AppBar position="static" className={classes.toolbar}>
       <Toolbar>
         <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" />
 
