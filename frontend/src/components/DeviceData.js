@@ -53,6 +53,6 @@ const DeviceData = ({ classes, deviceData, currentData, setCurrentData }) => (
 );
 
 export default compose(
-  withState('currentData', 'setCurrentData', undefined),
+  withState('currentData', 'setCurrentData', undefined), 
   withStyles(styles)
 )(DeviceData);

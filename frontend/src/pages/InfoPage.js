@@ -42,7 +42,7 @@ const styles = theme => ({
   },
 });
 
-const InfoPage = ({ classes, deviceData, marks, setMarks }) => (
+const InfoPage = ({ classes, deviceData, marks, setDeviceData, setMarks }) => (
   <div>
     <AppBar position="static" className={classes.toolbar}>
       <Toolbar>
@@ -60,32 +60,14 @@ const InfoPage = ({ classes, deviceData, marks, setMarks }) => (
     <Paper className={classes.paper}>
       <Map marks={marks} />
     </Paper>
-    <Simulation setMarks={setMarks} />
+    <Simulation setDeviceData={setDeviceData} setMarks={setMarks} />
   </div>
 );
-
-
-const mockDeviceId = 1234;
-const mockObj = {
-  device_id: 'SGX1278989',
-  geo_lat: 123.455,
-  geo_lon: 111.333,
-  timestamp: 1477849493,
-  coliform_number: 2.8,
-  ph_level: 9,
-  chlorine_level: 8.4,
-  turbidity: 12.3,
-  water_ok: true,
-}
-
-const mockDeviceData = {
-  [mockDeviceId]: Array.from({ length: 6 }, () => ({ ...mockObj })),
-};
 
 const enhance = compose(
   withStateHandlers(
     {
-      deviceData: mockDeviceData,
+      deviceData: {},
       marks: [
         { lat: -33.308849, lng: 149.010766 },
         { lat: -33.3062539, lng: 148.9739605 },
@@ -93,10 +75,14 @@ const enhance = compose(
       ],
     },
     {
-      setDeviceData: state => (id, deviceData) => ({
-        ...state.deviceData,
-        [id]: deviceData,
-      }),
+      setDeviceData: state => (id, deviceData) => {
+        return {
+          deviceData: {
+            ...state.deviceData,
+            [id]: deviceData,
+          },
+        };
+      },
       setMarks: state => newPositions => {
         return {
           marks: [...state.marks, ...newPositions],
