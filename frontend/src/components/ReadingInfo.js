@@ -10,14 +10,15 @@ const styles = theme => ({
     fontSize: '1.2rem',
   },
   card: {
-    width: '25%',
+    width: 'calc(25% - 16px)',
+    margin: '8px',
   },
 });
 
 const ReadingInfo = props => (
   <Card className={props.classes.card}>
     <CardContent>
-      <Typography component="h2" className={props.classes.header}>
+      <Typography component="h3" className={props.classes.header}>
         Measurement result
       </Typography>
       <Typography component="span">Latitude: {props.geo_lat}</Typography>

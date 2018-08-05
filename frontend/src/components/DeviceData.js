@@ -13,32 +13,26 @@ const styles = theme => ({
   },
   cardsWrapper: {
     display: 'flex',
-    flexDirection: 'column',
-  }
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: '16px',
+  },
 });
 
 const mockDeviceId = 1234;
+const mockObj = {
+  device_id: 'SGX1278989',
+  geo_lat: 123.455,
+  geo_lon: 111.333,
+  timestamp: 1477849493,
+  coliform_number: 2.8,
+  ph_level: 9,
+  chlorine_level: 8.4,
+  turbidity: 12.3,
+}
 
 const mockDeviceData = {
-  [mockDeviceId]: [{
-    device_id: 'SGX1278989',
-    geo_lat: 123.455,
-    geo_lon: 111.333,
-    timestamp: 1477849493,
-    coliform_number: 2.8,
-    ph_level: 9,
-    chlorine_level: 8.4,
-    turbidity: 12.3,
-  }, {
-    device_id: 'SGX1278989',
-    geo_lat: 123.455,
-    geo_lon: 111.333,
-    timestamp: 1477849493,
-    coliform_number: 2.8,
-    ph_level: 9,
-    chlorine_level: 8.4,
-    turbidity: 12.3,
-  }],
+  [mockDeviceId]: Array.from({ length: 6 }, () => ({ ...mockObj })),
 };
 
 const DEVICE_ID_NAME = 'deviceID';
@@ -50,9 +44,16 @@ const DeviceData = ({ classes, currentData, setCurrentData }) => (
     }}
   >
     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
-      <div>
+      <div className={classes.wrapper}>
         <form onSubmit={handleSubmit}>
-          <TextField name={DEVICE_ID_NAME} label="Device ID" margin="normal" fullWidth onChange={handleChange} autoComplete="off" />
+          <TextField
+            name={DEVICE_ID_NAME}
+            label="Device ID"
+            margin="normal"
+            fullWidth
+            onChange={handleChange}
+            autoComplete="off"
+          />
           <Button
             variant="contained"
             color="primary"
@@ -64,9 +65,7 @@ const DeviceData = ({ classes, currentData, setCurrentData }) => (
           </Button>
         </form>
         {currentData && (
-          <div className={classes.cardsWrapper}>
-            {currentData.map(data => <ReadingInfo {...data} />)}
-          </div>
+          <div className={classes.cardsWrapper}>{currentData.map((data, id) => <ReadingInfo key={id} {...data} />)}</div>
         )}
       </div>
     )}
