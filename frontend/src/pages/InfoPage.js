@@ -11,12 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 
-<<<<<<< HEAD
 import Simulation from './Simulation'
 import logo from './logo.png'
-=======
-import Simulation from './Simulation';
->>>>>>> 858b7cd47c64b572016fa715d58cc833d49ec32c
+
 
 const styles = theme => ({
   card: {
