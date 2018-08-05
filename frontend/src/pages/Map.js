@@ -60,8 +60,7 @@ class Map extends Component {
     };
 
     render() {
-        const { marks } = this.state;
-        const { classes } = this.props;
+        const { classes, marks } = this.props;
         return (
             <div>
                 <MapContainer

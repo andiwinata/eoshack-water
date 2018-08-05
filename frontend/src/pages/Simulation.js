@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose, withHandlers } from 'recompose';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -46,4 +47,22 @@ const Simulation = ({ classes, pushReadingsOnClick }) => (
   </div>
 );
 
-export default withStyles(styles)(Simulation);
+const getRandomInRange = (from, to, fixed) => {
+  return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+};
+
+const enhance = compose(
+  withHandlers({
+    pushReadingsOnClick: props => () => {
+      var newPos = [
+        { lat: getRandomInRange(-33.0, -33.5, 3), lng: getRandomInRange(149, 149.4, 3) },
+        { lat: getRandomInRange(-33.0, -33.5, 3), lng: getRandomInRange(149, 149.4, 3) },
+      ];
+
+      props.setMarks(newPos);
+    },
+  }),
+  withStyles(styles)
+);
+
+export default enhance(Simulation);

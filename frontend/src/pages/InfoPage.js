@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { compose, withState, withStateHandlers } from 'recompose';
 import Paper from '@material-ui/core/Paper';
 import DeviceData from '../components/DeviceData';
 import Map from './Map.js';
@@ -10,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 
-import Simulation from './Simulation'
+import Simulation from './Simulation';
 
 const styles = theme => ({
   card: {
@@ -38,12 +39,11 @@ const styles = theme => ({
   },
 });
 
-const InfoPage = ({ classes }) => (
+const InfoPage = ({ classes, marks, setMarks }) => (
   <div>
     <AppBar position="static">
       <Toolbar>
-        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-        </IconButton>
+        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" />
 
         <Typography variant="title" color="inherit" className={classes.flex}>
           H2EOS | Measuring water quality with IOT and BlockChain
@@ -55,10 +55,30 @@ const InfoPage = ({ classes }) => (
       <DeviceData />
     </Paper>
     <Paper className={classes.paper}>
-      <Map />
+      <Map marks={marks} />
     </Paper>
-    <Simulation />
+    <Simulation setMarks={setMarks} />
   </div>
 );
 
-export default withStyles(styles)(InfoPage);
+const enhance = compose(
+  withStateHandlers(
+    {
+      marks: [
+        { lat: -33.308849, lng: 149.010766 },
+        { lat: -33.3062539, lng: 148.9739605 },
+        { lat: -33.295481, lng: 148.839921 },
+      ],
+    },
+    {
+      setMarks: state => newPositions => {
+        return {
+          marks: [...state.marks, ...newPositions],
+        };
+      },
+    }
+  ),
+  withStyles(styles)
+);
+
+export default enhance(InfoPage);
